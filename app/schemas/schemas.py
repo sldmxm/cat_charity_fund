@@ -5,6 +5,8 @@ from pydantic import BaseModel, Extra, Field
 from pydantic.class_validators import validator
 from pydantic.types import PositiveInt
 
+from app.core.config import settings
+
 
 class ProjectBase(BaseModel):
     name: Optional[str]
@@ -16,7 +18,11 @@ class ProjectBase(BaseModel):
 
 
 class ProjectCreate(ProjectBase):
-    name: str = Field(..., min_length=1, max_length=100)
+    name: str = Field(
+        ...,
+        min_length=1,
+        max_length=settings.project_name_length,
+    )
     description: str = Field(..., min_length=1)
     full_amount: PositiveInt
 

@@ -11,7 +11,7 @@ async def check_project_name_duplicate(
         project_name: str,
         session: AsyncSession,
 ) -> None:
-    if await project_crud.get_project_id_by_name(project_name, session):
+    if await project_crud.get_id_by_name(project_name, session):
         raise HTTPException(
             status_code=400,
             detail='Проект с таким именем уже существует!',

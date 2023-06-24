@@ -72,3 +72,27 @@ class CRUDBase:
         await session.delete(db_obj)
         await session.commit()
         return db_obj
+
+    async def get_by_user(
+            self,
+            session: AsyncSession,
+            user: User
+    ):
+        db_objs = await session.execute(
+            select(self.model).where(
+                self.model.user_id == user.id
+            )
+        )
+        return db_objs.scalars().all()
+
+    async def get_id_by_name(
+            self,
+            name: str,
+            session: AsyncSession,
+    ) -> Optional[int]:
+        obj_id = await session.execute(
+            select(self.model.id).where(
+                self.model.name == name
+            )
+        )
+        return obj_id.scalars().first()
